@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,79 +15,56 @@ public class PlayerController : MonoBehaviour
     private GameObject muzzleFlash;
 
     [SerializeField]
-    private float muzzleTime;
+    private float muzzleTime, shootCooldown, health;
 
-    private PlayerDetection detection;
-
-    public Transform nearestTarget;
-
-    public int direction;
-
-    private void Start()
-    {
-        detection = FindObjectOfType<PlayerDetection>();        
-    }
-
+    private bool canShoot = true;
+ 
     void Update()
     {
-        if (nearestTarget != null)
+        if (!BuildMode.building)
         {
-            Vector3 direction = nearestTarget.position - playerArt.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            playerArt.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-        else
-        {
-            playerArt.rotation = transform.rotation;
-        }
+            var pos = Camera.main.WorldToScreenPoint(transform.position);
+            var dir = Input.mousePosition - pos;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(bullet, shootPoint.position, playerArt.rotation);
-            StartCoroutine(MuzzleFlash(muzzleTime));
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            direction = 1;
-            SetRotation(90);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            direction = 2;
-            SetRotation(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            direction = 3;
-            SetRotation(270);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            direction = 4;
-            SetRotation(180);
-        }
+            if (Input.GetMouseButton(0) && canShoot)
+            {
+                Shoot();
+            }
+        }           
 
     }
 
-    private void SetRotation(float z)
-    {
-        var warnings = FindObjectsOfType<WarningDetection>();
-        foreach (var item in warnings)
-        {
-            item.UpdateWarning();
-        }
-        detection.ClearTargets();
-        nearestTarget = null;            
-        transform.rotation = Quaternion.Euler(0,0,z);
-        detection.GetTarget();
-
-    }
 
     private IEnumerator MuzzleFlash(float time)
     {
         muzzleFlash.SetActive(true);
         yield return new WaitForSeconds(time);
         muzzleFlash.SetActive(false);
+    }
+
+    private IEnumerator SetShoot(float time)
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(time);
+        canShoot = true;
+
+    }
+
+    private void Shoot()
+    {        
+        Instantiate(bullet, shootPoint.position, playerArt.rotation);
+        StartCoroutine(MuzzleFlash(muzzleTime));
+        StartCoroutine(SetShoot(shootCooldown));
+    }
+
+    public void DealDamage(float dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+        {
+            print("You dead");
+        }
     }
 }

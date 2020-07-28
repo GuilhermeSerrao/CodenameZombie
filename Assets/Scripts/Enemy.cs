@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float speed, health, damage;
 
+    [SerializeField]
+    private int value;
+
     private PlayerController player;
 
     // Start is called before the first frame update
@@ -28,11 +31,32 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print(collision.gameObject.name);
-        if (!collision.gameObject.GetComponent<PlayerController>())
+
+        if (collision.gameObject.GetComponent<PlayerController>())
         {
-            
+            player.DealDamage(damage);
+            Death();
+        }
+
+        if (!collision.gameObject.GetComponent<PlayerController>())
+        {            
             Destroy(collision.gameObject);
         }
+    }
+
+    public void DealDamage(float damage)
+    {
+        health -= damage;
+        if (health<=0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        FindObjectOfType<BuildMode>().AddMoney(value);
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject);
     }
 }

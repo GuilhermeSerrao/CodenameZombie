@@ -8,11 +8,14 @@ public class EnemySpawner : MonoBehaviour
     private GameObject enemy;
 
     [SerializeField]
+    private int enemiesToSpawn;
+
+    [SerializeField]
     private float timer, reduceTime, spawnX, spawnY;
 
     private float startTimer;
 
-    private int location;
+    private int location, spawnedEnemies;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +69,11 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(Vector3 position)
     {
        Instantiate(enemy, position, Quaternion.identity);
+        spawnedEnemies++;
+        if (spawnedEnemies ==)
+        {
+
+        }
        
     }
 

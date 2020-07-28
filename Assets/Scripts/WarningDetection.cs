@@ -9,37 +9,60 @@ public class WarningDetection : MonoBehaviour
 
     private List<Collider2D> targetColliders = new List<Collider2D>();
     private GameObject warning;
-    private PlayerController player;
+    private bool hasMouse;
 
     private void Start()
     {
         warning = transform.GetChild(0).gameObject;
-        player = FindObjectOfType<PlayerController>();
         UpdateWarning();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!targetColliders.Contains(collision))
+
+        if (collision.GetComponent<MouseTrigger>())
+        {
+            hasMouse = true;
+            warning.SetActive(false);
+        }
+
+        if (!targetColliders.Contains(collision) && !collision.GetComponent<MouseTrigger>())
         {
             targetColliders.Add(collision);
-        }
-        UpdateWarning();
-       
+            if (!hasMouse)
+            {
+                UpdateWarning();
+            }            
+        }      
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (targetColliders.Contains(collision))
+
+        if (collision.GetComponent<MouseTrigger>())
+        {
+            hasMouse = false;
+            UpdateWarning();
+        }
+        
+        if (targetColliders.Contains(collision) && !collision.GetComponent<MouseTrigger>())
         {
             targetColliders.Remove(collision);
-        }
-        UpdateWarning();
+
+            if (!hasMouse)
+            {
+                UpdateWarning();
+            }
+
+        }       
+        
+        
     }
 
     public void UpdateWarning()
     {
-        if (targetColliders.Count > 0 && direction != player.direction)
+        if (targetColliders.Count > 0)
         {
             warning.SetActive(true);
         }
