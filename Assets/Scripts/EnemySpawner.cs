@@ -8,8 +8,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject enemy;
 
     [SerializeField]
-    private float timer, spawnX, spawnY;
-
+    private float timer, reduceTime, spawnX, spawnY;
 
     private float startTimer;
 
@@ -29,13 +28,21 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {            
+            
             timer = startTimer;
+            if (startTimer > 0.5)
+            {
+                startTimer -= reduceTime;
+            }
+            
+            
             RandomSide();
             Vector3 spawnLocation = new Vector3();
             switch (location)
             {
                 case 1:
                     spawnLocation = new Vector3(Random.Range(-spawnX, spawnX), spawnY, 0);
+                 
                     SpawnEnemy(spawnLocation);
                     break;
                 case 2:
