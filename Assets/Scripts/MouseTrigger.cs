@@ -5,6 +5,12 @@ using UnityEngine;
 public class MouseTrigger : MonoBehaviour
 {
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+    }
+
     // Update is called once per frame
     void Update()
     {

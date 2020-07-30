@@ -9,16 +9,26 @@ public class PlayerController : MonoBehaviour
     private Bullet bullet;
 
     [SerializeField]
-    private Transform shootPoint, playerArt;
+    private Transform shootPoint;
 
     [SerializeField]
     private GameObject muzzleFlash;
 
     [SerializeField]
+    private Gun[] weapons;
+
+    private Gun selectedWeapon;
+
+    [SerializeField]
     private float muzzleTime, shootCooldown, health;
 
     private bool canShoot = true;
- 
+
+
+    private void Start()
+    {
+        selectedWeapon = weapons[0];
+    }
     void Update()
     {
         if (!BuildMode.building)
@@ -28,11 +38,28 @@ public class PlayerController : MonoBehaviour
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                selectedWeapon = weapons[0];
+                shootCooldown = selectedWeapon.fireRate;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                selectedWeapon = weapons[1];
+                shootCooldown = selectedWeapon.fireRate;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                selectedWeapon = weapons[2];
+                shootCooldown = selectedWeapon.fireRate;
+            }
+
+
             if (Input.GetMouseButton(0) && canShoot)
             {
                 Shoot();
             }
-        }           
+        }         
 
     }
 
@@ -53,10 +80,30 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Shoot()
-    {        
-        Instantiate(bullet, shootPoint.position, playerArt.rotation);
-        StartCoroutine(MuzzleFlash(muzzleTime));
-        StartCoroutine(SetShoot(shootCooldown));
+    {
+        if (selectedWeapon == weapons[2])
+        {
+            for (int i = 0; i < selectedWeapon.shotgunBullets; i++)
+            {
+                var newBullet = Instantiate(bullet, shootPoint.position, transform.rotation);
+                newBullet.GetComponent<Transform>().Rotate(0, 0, Random.Range(-selectedWeapon.spread, selectedWeapon.spread));
+                newBullet.damage = selectedWeapon.damage;
+                newBullet.speed = selectedWeapon.bulletSpeed;
+            }           
+            StartCoroutine(MuzzleFlash(muzzleTime));
+            StartCoroutine(SetShoot(shootCooldown));
+        }
+        else
+        {
+            var newBullet = Instantiate(bullet, shootPoint.position, transform.rotation);
+            newBullet.GetComponent<Transform>().Rotate(0, 0, Random.Range(-selectedWeapon.spread, selectedWeapon.spread));
+            newBullet.damage = selectedWeapon.damage;
+            newBullet.speed = selectedWeapon.bulletSpeed;
+            StartCoroutine(MuzzleFlash(muzzleTime));
+            StartCoroutine(SetShoot(shootCooldown));
+        }
+        
+
     }
 
     public void DealDamage(float dmg)

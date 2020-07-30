@@ -33,10 +33,12 @@ public class BuildMode : MonoBehaviour
             building = !building;
             if (building)
             {
+                Cursor.visible = true;
                 Time.timeScale = 0;
             }
             else
             {
+                Cursor.visible = false;
                 ResetStructure();
                 Time.timeScale = 1;
             }
@@ -52,13 +54,30 @@ public class BuildMode : MonoBehaviour
                 if (selectedStructure!=null)
                 {
                     ResetStructure();
+                    selectedStructure = structures[0];
+                    spriteRenderer.sprite = selectedStructure.GetComponent<Structure>().spr;
                 }
                 else
                 {
                     selectedStructure = structures[0];
-                    spriteRenderer.sprite = selectedStructure.GetComponent<SpriteRenderer>().sprite;
+                    spriteRenderer.sprite = selectedStructure.GetComponent<Structure>().spr;
                 }
                 
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (selectedStructure != null)
+                {
+                    ResetStructure();
+                    selectedStructure = structures[1];
+                    spriteRenderer.sprite = selectedStructure.GetComponent<Structure>().spr;
+                }
+                else
+                {
+                    selectedStructure = structures[1];
+                    spriteRenderer.sprite = selectedStructure.GetComponent<Structure>().spr;
+                }
+
             }
             if (selectedStructure!=null && Input.GetMouseButtonDown(0))
             {

@@ -16,9 +16,12 @@ public class EnemySpawner : MonoBehaviour
     private float startTimer;
 
     private int location, spawnedEnemies;
+
+    private Spawners spawnControl;
     // Start is called before the first frame update
     void Start()
     {
+        spawnControl = FindObjectOfType<Spawners>();
         startTimer = timer;
     }
 
@@ -68,12 +71,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy(Vector3 position)
     {
-       Instantiate(enemy, position, Quaternion.identity);
+        spawnControl.AddZombie();
+        Instantiate(enemy, position, Quaternion.identity);
         spawnedEnemies++;
-        if (spawnedEnemies ==)
+        /*if (spawnedEnemies ==)
         {
 
-        }
+        }*/
        
     }
 

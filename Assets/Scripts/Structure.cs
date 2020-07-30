@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Structure : MonoBehaviour
 {
-
+    public Sprite spr;
     public int cost;
     
 }
