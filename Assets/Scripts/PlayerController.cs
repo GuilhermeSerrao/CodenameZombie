@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(MuzzleFlash(muzzleTime));
             StartCoroutine(SetShoot(shootCooldown));
         }
-        
+        FindObjectOfType<CameraShake>().TriggerShake(muzzleTime);
 
     }
 

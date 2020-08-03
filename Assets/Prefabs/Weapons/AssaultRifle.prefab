@@ -47,5 +47,5 @@ MonoBehaviour:
   damage: 5
   shotgunBullets: 0
   bulletSpeed: 120
-  spread: 15
+  spread: 8
   fireRate: 0.2
