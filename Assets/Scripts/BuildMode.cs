@@ -13,9 +13,14 @@ public class BuildMode : MonoBehaviour
     [SerializeField]
     private GameObject[] structures;
 
+    [SerializeField]
+    private GameObject buildingPanel;
+
     private GameObject selectedStructure = null;
 
     private SpriteRenderer spriteRenderer;
+
+
 
     [SerializeField]
     private int money;
@@ -33,14 +38,12 @@ public class BuildMode : MonoBehaviour
             building = !building;
             if (building)
             {
-                Cursor.visible = true;
-                Time.timeScale = 0;
+                FindObjectOfType<UiManager>().BuildMenu(building);                
             }
             else
             {
-                Cursor.visible = false;
-                ResetStructure();
-                Time.timeScale = 1;
+                FindObjectOfType<UiManager>().BuildMenu(building);                
+                ResetStructure();                
             }
         }
 

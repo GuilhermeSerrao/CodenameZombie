@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
         health -= dmg;
         if (health <= 0)
         {
-            print("You dead");
+            FindObjectOfType<UiManager>().LoseGame();
         }
     }
 }

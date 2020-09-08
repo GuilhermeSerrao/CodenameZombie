@@ -46,6 +46,6 @@ MonoBehaviour:
   gunName: AssaultRifle
   damage: 5
   shotgunBullets: 0
-  bulletSpeed: 120
-  spread: 8
-  fireRate: 0.2
+  bulletSpeed: 140
+  spread: 5
+  fireRate: 0.15

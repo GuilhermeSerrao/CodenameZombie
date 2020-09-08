@@ -60,8 +60,7 @@ public class AutoTurret : MonoBehaviour
                 possibleTargets.Add(collision);
             }
             if (!target)
-            {
-                
+            {                
                 target = collision.transform;
             }            
         }
@@ -70,32 +69,25 @@ public class AutoTurret : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<Enemy>())
+
+        if (possibleTargets.Contains(collision))
         {
-            if (target == collision.transform)
-            {                
-                target = null;
-            }
-
-            if (possibleTargets.Contains(collision))
-            {
-                possibleTargets.Remove(collision);
-            }
-
-            if (!target && possibleTargets.Count > 0)
-            {
-                distance = Vector3.Distance(possibleTargets[0].transform.position, transform.position);
-
-                foreach (var item in possibleTargets)
-                {
-                    if (Vector3.Distance(item.transform.position, transform.position) < distance)
-                    {
-                        distance = Vector3.Distance(item.transform.position, transform.position);
-                        target = item.transform;
-                    }
-                }
-            }           
+            possibleTargets.Remove(collision);
         }
+
+        if (target == collision.transform)
+        {
+            target = null;
+        }
+
+       
+
+        if (!target && possibleTargets.Count > 0)
+        {
+            target = possibleTargets[Random.Range(0, possibleTargets.Count)].transform;
+            
+        }
+
     }
 
     private IEnumerator MuzzleFlash(float time)
