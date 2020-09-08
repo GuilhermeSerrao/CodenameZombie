@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 491880760645807758, guid: b2ca40e80cf6dc540b45db4661c005d6, type: 3}
+  smallEnemies:
+  - {fileID: 491880760645807758, guid: b2ca40e80cf6dc540b45db4661c005d6, type: 3}
+  bigEnemies:
+  - {fileID: 3216016781684560233, guid: 7bb6d4b451b46994da3d3c3ffe6e0b42, type: 3}
   enemiesToSpawn: 0
   timer: 3
   reduceTime: 0

@@ -6,8 +6,14 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage, speed;
-    
 
+    public string shooter;
+
+
+    private void Start()
+    {
+        StartCoroutine("DestroySelf");
+    }
     void Update()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime, Space.Self);
@@ -17,7 +23,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.GetComponent<Enemy>())
         {
-            collision.GetComponent<Enemy>().DealDamage(damage);
+            collision.GetComponent<Enemy>().DealDamage(damage, shooter);
             Destroy(gameObject);
         }
         else
@@ -25,5 +31,11 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
         
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
     }
 }

@@ -10,6 +10,8 @@ public class Gun : MonoBehaviour
 
     public float bulletSpeed, spread, fireRate;
 
+    public AudioClip shootSfx;
+
     
 
     

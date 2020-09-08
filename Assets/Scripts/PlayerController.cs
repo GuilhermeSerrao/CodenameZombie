@@ -24,10 +24,13 @@ public class PlayerController : MonoBehaviour
 
     private bool canShoot = true;
 
+    private AudioSource audioSorce;
+
 
     private void Start()
     {
         selectedWeapon = weapons[0];
+        audioSorce = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -81,12 +84,16 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
+        audioSorce.Stop();
+        audioSorce.PlayOneShot(selectedWeapon.shootSfx);
         if (selectedWeapon == weapons[2])
         {
+            
             for (int i = 0; i < selectedWeapon.shotgunBullets; i++)
             {
                 var newBullet = Instantiate(bullet, shootPoint.position, transform.rotation);
                 newBullet.GetComponent<Transform>().Rotate(0, 0, Random.Range(-selectedWeapon.spread, selectedWeapon.spread));
+                newBullet.shooter = "Player";
                 newBullet.damage = selectedWeapon.damage;
                 newBullet.speed = selectedWeapon.bulletSpeed;
             }           
@@ -97,6 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             var newBullet = Instantiate(bullet, shootPoint.position, transform.rotation);
             newBullet.GetComponent<Transform>().Rotate(0, 0, Random.Range(-selectedWeapon.spread, selectedWeapon.spread));
+            newBullet.shooter = "Player";
             newBullet.damage = selectedWeapon.damage;
             newBullet.speed = selectedWeapon.bulletSpeed;
             StartCoroutine(MuzzleFlash(muzzleTime));

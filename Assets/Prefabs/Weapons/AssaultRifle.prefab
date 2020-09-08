@@ -49,3 +49,4 @@ MonoBehaviour:
   bulletSpeed: 140
   spread: 5
   fireRate: 0.15
+  shootSfx: {fileID: 8300000, guid: ec68a923825dd1642bcbc26f682cb138, type: 3}

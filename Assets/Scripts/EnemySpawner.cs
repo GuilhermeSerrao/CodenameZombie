@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    private GameObject enemy;
+    private GameObject[] smallEnemies, bigEnemies;
 
     [SerializeField]
     private int enemiesToSpawn;
@@ -72,18 +72,20 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(Vector3 position)
     {
         spawnControl.AddZombie();
-        Instantiate(enemy, position, Quaternion.identity);
-        spawnedEnemies++;
-        /*if (spawnedEnemies ==)
+        if (Random.Range(0, 6) > 4)
         {
+            Instantiate(bigEnemies[Random.Range(0, bigEnemies.Length - 1)], position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(smallEnemies[Random.Range(0, bigEnemies.Length - 1)], position, Quaternion.identity);
+        }
 
-        }*/
-       
     }
 
     private void RandomSide()
     {
-        location = Random.Range(1,5);       
+        location = Random.Range(1,5);      
         
     }
 }

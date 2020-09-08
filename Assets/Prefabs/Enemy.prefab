@@ -100,7 +100,9 @@ MonoBehaviour:
   speed: 1.5
   health: 9
   damage: 5
+  pushedForce: 20
   value: 10
+  bePushed: 1
 --- !u!114 &1819913952394897807
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: Handgun
   damage: 3
+  shotgunBullets: 0
   bulletSpeed: 80
   spread: 0
   fireRate: 0.5
+  shootSfx: {fileID: 8300000, guid: 25cd2f3ec6b3a284aa21a795f3d5f381, type: 3}

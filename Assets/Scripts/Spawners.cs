@@ -14,16 +14,15 @@ public class Spawners : MonoBehaviour
 
     private void Update()
     {
-        /*if (zombiesSpawned > 0)
-        {*/
-            if (zombiesSpawned/numSpawners >= zombiesPerSpawn)
-            {
-                zombiesSpawned = 0;
-                var newSpawn = Instantiate(spawner, transform.position, transform.rotation);
-                newSpawn.transform.parent = transform;
-                numSpawners++;
-            }
-        //}        
+
+        if (zombiesSpawned / numSpawners >= zombiesPerSpawn)
+        {
+            zombiesSpawned = 0;
+            var newSpawn = Instantiate(spawner, transform.position, transform.rotation);
+            newSpawn.transform.parent = transform;
+            numSpawners++;
+        }
+
     }
 
     public void AddZombie()
